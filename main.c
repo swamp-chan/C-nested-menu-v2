@@ -33,8 +33,8 @@ void execute_function(program_function function_to_execute);
 Menu *select_menu(Menu *m, int id);
 void menu_loop(Menu *m);
 
-//functions of lab1
-void lab1_evenodd(){
+//==== LABWORK 1 ==== //
+void lab1_q1(){
 	printf("Enter number: ");
 	int n;
 	scanf("%d",&n);
@@ -47,7 +47,7 @@ void lab1_evenodd(){
 	
 }
 
-void lab1_great(){
+void lab1_q2(){
 	int a,b,c;
 	printf("Enter 3 numbers: ");
 	scanf("%d %d %d", &a, &b, &c);
@@ -66,10 +66,10 @@ void lab1_great(){
 	}
 }
 
-//labwork 1
+// ======= MENU DECLARATION =============== //
 Menu labwork1[] = {
-	{1, "Even or odd using function", program, {.pfunction = lab1_evenodd}},
-	{2, "Greatest Among Three Numbers", program, {.pfunction = lab1_great}},
+	{1, "Even or odd using function", program, {.pfunction = lab1_q1}},
+	{2, "Greatest Among Three Numbers", program, {.pfunction = lab1_q2}},
 	{0, "BACK", back, {.pfunction = NULL}}
 };
 

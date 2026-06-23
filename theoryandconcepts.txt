@@ -1,0 +1,9 @@
+
+Some things to memorize about:
+1. typedef and it's workings
+2. struct, union, enum
+3. function pointers
+4. designated initializer
+5. Typedef Forward Declarations
+6. Multi-Dimensional Array Decay vs. Pointer Arrays
+7. global and local variables

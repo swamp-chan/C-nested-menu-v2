@@ -5,6 +5,12 @@
 
 #define author "AUTHOR_NAME"
 
+#ifdef _WIN32
+    #define CLEAR_COMMAND "cls"
+#else
+    #define CLEAR_COMMAND "clear"
+#endif
+
 typedef void (*program_function)();
 
 typedef enum{
@@ -51,25 +57,26 @@ void lab1_q2(){
 	int a,b,c;
 	printf("Enter 3 numbers: ");
 	scanf("%d %d %d", &a, &b, &c);
-	if(a>b){
-		if(a>c){
-			printf("%d", a);
-		}
-	}
-	else{
-		if(b>c){
-			printf("%d", b);
-		}
-		else{
-			printf("%d",c);
-		}
-	}
+  if(a > b && a > c){
+      printf("%d is the greatest", a);
+  }
+  else if(b > c && b > a){
+      printf("%d is the greates", b);
+  }
+  else{
+      printf("%d is the greatest", c); 
+  }
+}
+
+void lab1_q3(){
+
 }
 
 // ======= MENU DECLARATION =============== //
 Menu labwork1[] = {
 	{1, "Even or odd using function", program, {.pfunction = lab1_q1}},
 	{2, "Greatest Among Three Numbers", program, {.pfunction = lab1_q2}},
+  {3, "Prime or Composite", program, {.pfunction = lab1_q3}},
 	{0, "BACK", back, {.pfunction = NULL}}
 };
 
@@ -153,7 +160,7 @@ void menu_loop(Menu *current_menu){
 }
 
 void pre_function(){
-	system("clear");
+	system(CLEAR_COMMAND);
 	printf("Author name: %s\n",author);
 }
 void execute_function(program_function function_to_execute){
@@ -162,6 +169,8 @@ void execute_function(program_function function_to_execute){
 	post_function();
 }
 void post_function(){
-	getchar();
+  while(getchar() != '\n');
+  getchar();
 }
+
 

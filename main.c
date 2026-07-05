@@ -1,7 +1,7 @@
 
-
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 #define author "AUTHOR_NAME"
 
@@ -39,6 +39,7 @@ void execute_function(program_function function_to_execute);
 Menu *select_menu(Menu *m, int id);
 void menu_loop(Menu *m);
 
+
 //==== LABWORK 1 ==== //
 void lab1_q1(){
 	printf("Enter number: ");
@@ -68,15 +69,157 @@ void lab1_q2(){
   }
 }
 
+void lab1_q3_prime_composite(int n){
+  if(n<=1){ printf ("composite"); return;}
+  for(int i = 2; i*i<=n; i++){
+    if(n%i == 0){
+      printf("composite");
+      return;
+    }
+  }
+  printf("prime");
+}
+
 void lab1_q3(){
+  int a;
+  printf("Enter number: ");
+  scanf("%d", &a);
+  lab1_q3_prime_composite(a);
+}
+
+void lab1_q4(){
+  int i, sum=0;
+  for(i = 1; i<=200; i++){
+    sum += i;
+  }
+  printf("The sum of series = %d",sum);
+}
+
+int lab1_q5_sum(int a, int b){
+  return a+b;
+}
+
+void lab1_q5(){
+  int a,b;
+  printf("Enter any two numbers: ");
+  scanf("%d %d", &a, &b);
+  printf("the sum = %d",lab1_q5_sum(a,b));
+}
+
+void lab1_q6(){
+	int n,i, sum =0;
+	printf("Enter size of array: ");
+	scanf("%d",&n);
+	int arr[n];
+	printf("Enter the elements: \n");
+	for(i = 0; i<n; i++){
+		scanf("%d", &arr[i]);
+		sum += arr[i];
+	}
+	printf("The elements are: \n");
+	for(i = 0; i<n; i++){
+		printf("%d ",arr [i]);
+	}
+	printf("\nThe sum is: %d", sum);
+}
+
+void lab1_q7_matrix_sum(int a[][5], int b[][5], int r, int c){
+	int i,j,sum[r][5];
+	for(i = 0; i<r; i++){
+		for(j = 0; j<c; j++){
+			sum[i][j] = a[i][j]+b[i][j];
+		} 
+	}
+	for(i = 0; i<r; i++){
+		for(j = 0; j<c; j++){
+			printf("%d  ",sum[i][j]);
+		}
+		printf("\n");
+	}
+	
+}
+
+void lab1_q7(){
+	int i,j,r,c;
+	printf("enter row and columns: ");
+	scanf("%d %d", &r, &c);
+	int a[r][5], b[r][5];
+	
+	printf("Matrix A: \n");
+	for(i = 0; i<r; i++){
+		for(j = 0; j<c; j++){
+			scanf("%d",&a[i][j]);
+		}
+	}
+	printf("\nMatric B: \n");
+		for(i = 0; i<r; i++){
+			for(j = 0; j<c; j++){
+				scanf("%d",&b[i][j]);
+		}
+	}
+	lab1_q7_matrix_sum(a, b, r, c);
+}
+
+void lab1_q8_sort(char strings[][120], int n){
+  int i,j;
+  char temp[120];
+  for(i = 0; i<n; i++){
+    for(j = i+1; j<n; j++ ){
+      if(strcmp(strings[i], strings[j])>0){
+        strcpy(temp,strings[i]);
+        strcpy(strings[i],strings[j]);
+        strcpy(strings[j],temp);
+      }
+    }
+  }
+}
+
+void lab1_q8(){
+  int i,n;
+  printf("Enter number of strings: ");
+  scanf("%d", &n);
+  char string[n][120];
+  for(i = 0; i<n; i++){
+      scanf("%s",string[i]);
+  }
+  lab1_q8_sort(string, n);
+  printf("\nAfter sorting: \n");
+  for(i = 0; i<n; i++){
+      printf("%s\n",string[i]);
+  }
 
 }
+
+int lab1_q9_factorial(int n){
+	if(n == 0){ return 1;}
+	if(n>1){
+		return n*lab1_q9_factorial(n-1);
+	}
+	return n;
+	
+}
+
+void lab1_q9(){
+	int n;
+	printf("Enter Number: ");
+	scanf("%d",&n);
+	printf("factorial of the number = %d", lab1_q9_factorial(n));
+}
+
+
+
 
 // ======= MENU DECLARATION =============== //
 Menu labwork1[] = {
 	{1, "Even or odd using function", program, {.pfunction = lab1_q1}},
 	{2, "Greatest Among Three Numbers", program, {.pfunction = lab1_q2}},
   {3, "Prime or Composite", program, {.pfunction = lab1_q3}},
+  {4, "Sum of series", program, {.pfunction = lab1_q4}},
+  {5, "Sum of two numbers", program, {.pfunction = lab1_q5}},
+  {6, "Basic Array Operations", program, {.pfunction = lab1_q6}},
+  {7, "Sum of matrix", program, {.pfunction = lab1_q7}},
+  {8, "sorting strings", program, {.pfunction = lab1_q8}},
+  {9, "Factorial with recursion", program, {.pfunction = lab1_q9}},
 	{0, "BACK", back, {.pfunction = NULL}}
 };
 
@@ -96,7 +239,7 @@ int main(void){
 
 
 void pre_menu(){
-	system("clear");
+	system(CLEAR_COMMAND);
 	printf("Pick any option to display: \n\n");
 }
 
@@ -135,7 +278,7 @@ void menu_loop(Menu *current_menu){
 		selected_obj = select_menu(current_menu, option);
 		//printf("THE TYPE OF SELECTED OBJ: %d", selected_obj->type);
 		//getchar();
-		if(selected_obj){
+		if(selected_obj != NULL){
 			switch(selected_obj->type){
 				case quit:
 					exit(0);
@@ -153,7 +296,7 @@ void menu_loop(Menu *current_menu){
 		}
 		else{
 			printf("ENTER VALID OPTION");
-      getchar();
+      		getchar();
 		}
 	}while(1);
 	

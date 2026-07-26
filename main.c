@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-#define author "AUTHOR_NAME"
+#define author "Author_name"
 
 #ifdef _WIN32
     #define CLEAR_COMMAND "cls"
@@ -51,6 +51,7 @@ void lab1_q1(){
 	else{
 		printf("Odd number");
 	}
+	return;
 	
 }
 
@@ -207,7 +208,312 @@ void lab1_q9(){
 }
 
 
+// ====== LABWORK 2 =========== //
 
+void lab2_q1(){
+	struct std {
+		int id;
+		char name[50];
+		int grade;	
+	} students[10];
+	
+	printf("Enter the following details: \n");
+	int i;
+	for(i = 0; i< 10; i++){
+		
+		printf("\nEnter id: ");
+		scanf("%d",&students[i].id);
+		
+		printf("Enter name: ");
+		scanf("%s",students[i].name);
+		
+		printf("Enter grade: ");
+		scanf("%d",&students[i].grade);
+		
+	}
+	printf("\n\nPrinting the details: \n");
+	for(i = 0; i<10; i++){
+		printf("%d. %s of grade %d\n", students[i].id, students[i].name, students[i].grade);
+	}
+}
+
+void lab2_q2(){
+	struct e{
+		char name[20];
+		char desig[20];
+		int sal;
+	}emp[3];
+	int i, n=3;
+	for(i = 0; i<n; i++){
+		printf("\n\nEnter employee name: ");
+		scanf("%s",emp[i].name);
+		printf("Enter designation: ");
+		scanf("%s",emp[i].desig);
+		printf("Enter salary: ");
+		scanf("%d",&emp[i].sal);
+	}
+	
+	char nam[20], found_index = -1;
+	printf("\nEnter the name of the employee to search: ");
+	scanf("%s",nam);
+	for(i = 0; i<n; i++){
+		if(strcmp(emp[i].name, nam) == 0){
+			found_index = i;
+		}
+	}
+	if(found_index != -1){
+		printf("\nEmployee found: \n%s of designation %s", emp[found_index].name, emp[found_index].desig);
+	}
+	else{
+		printf("\nEmployee not found");
+	}
+}
+
+void lab2_q3(){
+	struct employee{
+		char ename[100];
+		char eaddress[100];
+	};
+	struct salarydetails{
+		char pos[100];
+		float salary;
+		struct employee detail;
+	}payinfo[5];
+	int i, n = 5;
+	for(i = 0; i<n; i++){
+		printf("\nenter name: ");
+		scanf("%s", payinfo[i].detail.ename);
+		printf("enter address: ");
+		scanf("%s", payinfo[i].detail.eaddress);
+		printf("enter position: ");
+		scanf("%s", payinfo[i].pos);
+		printf("enter salary: ");
+		scanf("%f",&payinfo[i].salary);
+	}
+	
+	printf("\nPrinting data that was inputted: \n");
+	for(i = 0; i<n; i++){
+		printf("%s of pos %s with salary %.2f living in %s\n", payinfo[i].detail.ename, payinfo[i].pos, payinfo[i].salary, payinfo[i].detail.eaddress);
+	}
+}
+
+void lab2_q4(){
+	struct student{
+		int id;
+		char name[60];
+		char add[60];
+	}st[3];
+	int i,j, n = 3;
+	for(i = 0; i<n; i++){
+		printf("\nEnter name: ");
+		scanf("%s",st[i].name);
+		printf("Enter id: ");
+		scanf("%d",&st[i].id);
+		printf("Enter address: ");
+		scanf("%s",st[i].add);
+	}
+	struct student temp;
+	for(i = 0; i<n; i++){
+		for(j = i+1; j<n; j++){
+			if(strcmp(st[i].name,st[j].name)>0);
+				temp = st[i];
+				st[i] = st[j];
+				st[j] = temp;
+		}
+	}
+	printf("\nIn sorted format: \n");
+	for(i = 0; i<n; i++){
+		printf("%d. %s living in \n", st[i].id, st[i].name, st[i].add);
+	}
+}
+
+void lab2_q5(){
+	typedef struct {
+		int id;
+		char name[60];
+		char subj[60];
+	}teacher;
+	teacher t[5];
+	int i, n = 5;
+	for(i = 0; i<n; i++){
+		printf("\nEnter name: ");
+		scanf("%s",t[i].name);
+		printf("Enter subject: ");
+		scanf("%s", t[i].subj);
+		printf("Enter id: ");
+		scanf("%d",&t[i].id);
+	}
+	printf("\nOutputting the entered data: \n");
+	for(i = 0; i<n; i++){
+		printf("%d. %s teaching %s\n", t[i].id, t[i].name, t[i].subj);
+	}
+}
+
+void lab2_q6(){
+	struct distance{
+		int km;
+		int m;
+	}a,b,c;
+	printf("Enter distance 1: ");
+	scanf("%d%d", &a.km, &a.m);
+	printf("Enter distance 2: ");
+	scanf("%d%d", &b.km, &b.m);
+	c.km = a.km + b.km + (a.m + b.m)/1000;
+	c.m = (a.m + b.m)%1000;
+	printf("the sum of the distances = %dkm and %dm",c.km,c.m);
+}
+
+void lab2_q7(){
+	union student{
+		int id;
+		char name[60];
+		int grade;
+	}sname, sid, sgrade;
+	printf("Enter name: ");
+	scanf("%s",sname.name);
+	printf("Enter grade: ");
+	scanf("%d",&sgrade.grade);
+	printf("Enter id: ");
+	scanf("%d", &sid.id);
+	printf("\n%d. %s of grade %d", sid.id, sname.name, sgrade.grade);
+}
+
+
+// ====== LABWORK 3 =========== //
+
+void lab3_q1(){
+	int a, b;
+	int *pa, *pb;
+	pa = &a;
+	pb = &b;
+	printf("Enter any two numbers: ");
+	scanf("%d%d",pa,pb);
+	int sum, diff, mul;
+	float div;
+	sum = *pa + *pb;
+	mul = *pa * *pb;
+	diff = *pa - *pb;
+	div = (float)*pa / *pb;
+	printf("sum = %d\ndifference = %d\nmultiplication = %d\ndivision = %.3f",sum,diff,mul,div);
+	
+}
+
+void lab3_q2(){
+	int a, *pa;
+	pa = &a;
+	printf("Enter a number: ");
+	scanf("%d",pa);
+	if(*pa%2 == 0){
+		printf("even");
+	}
+	else{
+		printf("odd");
+	}
+}
+
+void lab3_q3(){
+	int i,n, *pn, sum;
+	pn = &n;
+	float avg;
+	printf("Enter the nth number: ");
+	scanf("%d",pn);
+	sum = 0;
+	for(i = 1; i<=*pn; i++){
+		sum += i;
+	}
+	avg = (float)sum / *pn;
+	printf("sum = %d and avg = %.3f", sum, avg);
+}
+
+void lab3_q4(){
+	int n = 10;
+	int arr[n], *parr, i;
+	parr = arr;
+	printf("Enter elements of the array:\n");
+	for(i = 0; i<n; i++){
+		scanf("%d", (parr+i));
+	}
+	printf("the elements of array are: ");
+	for(i = 0; i<n; i++){
+		printf("%d ",*(parr+i));
+	}
+}
+
+void lab3_q5(){
+	int n = 10;
+	int arr[n], *parr, max, min, i;
+	parr = arr;
+	printf("Enter the elements of the array:\n");
+	for(i = 0; i<n; i++){
+		scanf("%d", (parr+i));
+	}
+	max = *parr;
+	min = *parr;
+	for(i = 1; i<n; i++){
+		if(max<*(parr+i))
+			max = *(parr+i);
+		if(min>*(parr+i))
+			min = *(parr+i);
+	}
+	printf("max = %d and min = %d", max, min);
+}
+
+void lab3_q6_byref(int *a, int *b){
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void lab3_q6_byvalue(int a, int b){
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+	printf("\nafter swapping from value:\nn1=%d and n2=%d",a,b);
+}
+
+void lab3_q6(){
+	int n1,n2;
+	printf("Enter two numbers(n1 and n2): ");
+	scanf("%d%d",&n1,&n2);
+	lab3_q6_byref(&n1,&n2);
+	printf("after swapping from reference:\nn1=%d and n2=%d",n1,n2);
+	lab3_q6_byvalue(n1, n2);
+}
+
+void lab3_q7(){
+	int n = 10;
+	int arr[n], *parr, i, j, temp;
+	parr = arr;
+	printf("Enter elements of array: ");
+	 for(i = 0; i<n; i++){
+	 	scanf("%d",(parr+i));
+	 }
+	 for(i = 0; i<n; i++){
+	 	for(j = i+1; j<n; j++){
+	 		if(*(parr+i)<*(parr+j)){
+	 			temp = *(parr+i);
+	 			*(parr+i) = *(parr+j);
+	 			*(parr+j) = temp;
+			 }
+		 }
+	 }
+	 printf("The array sorted is: ");
+	 for(i = 0;i<n;i++){
+	 	printf("%d ",*(parr+i));
+	 }
+}
+
+void lab3_q8(){
+	int n, *pn, i;
+	pn = &n;
+	printf("Enter number: ");
+	scanf("%d",pn);
+	for(i = 1; i<=10; i++){
+		printf("%d\t*\t%d\t=\t%d\n",*pn,i,*pn*i);
+	}
+}
 
 // ======= MENU DECLARATION =============== //
 Menu labwork1[] = {
@@ -223,9 +529,33 @@ Menu labwork1[] = {
 	{0, "BACK", back, {.pfunction = NULL}}
 };
 
+Menu labwork2[] = {
+	{1, "Array of structure 10 students", program, {.pfunction = lab2_q1}},
+	{2, "Array of 20 employees", program, {.pfunction = lab2_q2}},
+	{3, "Nested array of payinfo", program, {.pfunction = lab2_q3}},
+	{4, "Sorting struct based on name", program, {.pfunction = lab2_q4}},
+	{5, "Using typedef", program, {.pfunction = lab2_q5}},
+	{6, "Sum of km and m", program, {.pfunction = lab2_q6}},
+	{7, "Student using union", program, {.pfunction = lab2_q7}},
+	{0, "BACK", back, {.pfunction = NULL}}
+};
+
+Menu labwork3[] = {
+	{1, "Basic pointer arithemetic calc", program, {.pfunction = lab3_q1}},
+	{2, "Even or odd with pointer", program, {.pfunction = lab3_q2}},
+	{3, "Sum and avg of n numbers", program, {.pfunction = lab3_q3}},
+	{4, "Input and print array using pointer", program, {.pfunction = lab3_q4}},
+	{5, "Max and min in array using pointer", program, {.pfunction = lab3_q5}},
+	{6, "Swapping by reference and value", program, {.pfunction = lab3_q6}},
+	{7, "Sort arrays using pointers", program, {.pfunction = lab3_q7}},
+	{8, "Multiplication table", program, {.pfunction = lab3_q8}},
+	{0, "BACK", back, {.pfunction = NULL}},
+};
+
 Menu Main_Menu[] = {
 	{1, "Labwork 1", sub_menu, {.submenu = labwork1}},
-	{2, "Labwork 2", sub_menu, {.submenu = NULL}},
+	{2, "Labwork 2", sub_menu, {.submenu = labwork2}},
+	{3, "Labwork 3", sub_menu, {.submenu = labwork3}},
 	{0, "QUIT", quit, {.submenu = NULL}}
 };
 
@@ -296,7 +626,9 @@ void menu_loop(Menu *current_menu){
 		}
 		else{
 			printf("ENTER VALID OPTION");
-      		getchar();
+      int temp;
+      printf("\nEnter \"YES\" if you understand: ");
+      scanf("%d",&temp);
 		}
 	}while(1);
 	

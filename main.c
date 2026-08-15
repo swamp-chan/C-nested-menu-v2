@@ -516,6 +516,241 @@ void lab3_q8(){
 	}
 }
 
+// ========== LABWORK 4 ================//
+
+void lab4_q1(){
+	FILE *fp;
+	char ch;
+	fp = fopen("./files_lab4/file.txt", "w");
+	printf("Enter a sentence: ");
+	while((ch = getchar())!= '\n'){
+		//putc(ch,fp);
+    fprintf(fp,"%c",ch);
+	}
+  while(getchar() != '\n');
+	fclose(fp);
+	printf("reading from the file: ");
+	fp = fopen("./files_lab4/file.txt", "r");
+	while((ch = getc(fp)) != EOF){
+		printf("%c",ch);
+	}
+	fclose(fp);
+  while(getchar() != '\n');
+}
+
+void lab4_q2(){
+  int n,i,sum=0;
+	printf("enter the nth number: ");
+	scanf("%d",&n);
+	
+	FILE *fp;
+	fp = fopen("./files_lab4/lab2.txt","w");
+	
+  if(fp == NULL){
+      printf("failed to open file");
+      getchar();
+  }
+	for(i = 1; i<=n; i++){
+		putw(i,fp);
+//		fprintf(fp, "%d\n",i);
+	}
+	
+	fclose(fp);
+	
+	fp = fopen("./files_lab4/lab2.txt", "r");
+	while((i = getw(fp)) != EOF){
+		printf("%d ", i);
+		sum += i;
+	}
+	printf("\naverage = %.2f",(float)sum/n);
+	fclose(fp);
+	
+}
+
+void lab4_q3(){
+	FILE *fp;
+	fp = fopen("./files_lab4/student.txt","w");
+	
+	int n;
+	printf("enter number of records: ");
+	scanf("%d",&n);
+	
+	char name[64], add[64];
+	for(n; n>0; n--){
+		scanf("%s%s", name, add);
+		fprintf(fp, "%s %s\n", name, add);
+	}
+	
+	fclose(fp);
+	
+	printf("\nREADING FROM THE FIlE:\n");
+	fp = fopen("./files_lab4/student.txt","r");
+	while((fscanf(fp,"%s %s", name, add))!=EOF){
+		printf("%s lives in %s\n", name, add);
+	}
+	fclose(fp);
+}
+
+void lab4_q4(){
+  char opt;
+	struct book{
+		char name[64];
+		int edition;
+		float price;
+	}b1;
+	
+	FILE *fp;
+	fp = fopen("./files_lab4/book.txt","w");
+	
+	do{
+		printf("enter name, edition and price[name edition price]: ");
+		scanf("%s %d %f",b1.name, &b1.edition, &b1.price);
+		fprintf(fp,"%s %d %.2f\n",b1.name, b1.edition, b1.price);
+		puts("do you want more record: ");
+		while(getchar() != '\n');
+		scanf("%c",&opt);
+		while(getchar() != '\n');
+	}while(opt != 'n');
+	
+	fclose(fp);
+	
+	fp = fopen("./files_lab4/book.txt","r");
+	printf("READING FROM THE FILE: \n");
+	while((fscanf(fp,"%s %d %f",b1.name, &b1.edition, &b1.price))!=EOF){
+		printf("%s %d %f\n",b1.name, b1.edition, b1.price);
+	}
+	
+	fclose(fp);
+	
+}
+
+void lab4_q5(){
+  char opt;
+	struct employee{
+		char name[64];
+		char designation[64];
+		float salary;
+	}b1;
+	
+	FILE *fp;
+	fp = fopen("./files_lab4/employee.txt","w");
+		
+	do{
+		printf("enter name, designation and salary[name designation salary]: ");
+		scanf("%s %s %f",b1.name, b1.designation, &b1.salary);
+		fwrite(&b1, sizeof(b1), 1, fp);
+		//fprintf(fp,"%s %s %.2f\n",b1.name, b1.designation, b1.salary);
+		puts("do you want more record: ");
+		while(getchar() != '\n');
+		scanf("%c",&opt);
+		while(getchar() != '\n');
+	}while(opt != 'n');
+	fclose(fp);
+	
+	fp = fopen("./files_lab4/employee.txt","r");
+	while(fread(&b1, sizeof(b1), 1, fp)){
+		printf("%s %s %f\n",b1.name, b1.designation, b1.salary);
+	}
+	
+	fclose(fp);
+}
+
+void lab4_q6(){
+  struct student{
+    char name[10];
+    int grade;
+    int mark[5], total;
+    float per;
+  }std;
+  FILE *fp;
+  fp = fopen("./files_lab4/student.dat", "w"); 
+
+  int i;
+  char opt;
+  do{
+    std.total = 0;
+    printf("NAME GRADE AND MARKS IN 5 SUBJECTS: ");
+    scanf("%s%d", std.name, &std.grade);
+    for(i = 0; i<5; i++){
+      scanf("%d",&std.mark[i]);
+      std.total += std.mark[i];
+    }
+    std.per = 100 * (float)std.total/500;
+    while(getchar()!='\n');
+    fwrite(&std, sizeof(struct student), 1, fp);
+    printf("Want more records?('y' for yes): ");
+    scanf("%c",&opt);
+  }while(opt == 'y' || opt == 'Y');
+
+  fclose(fp);
+
+  printf("\nREADING FROM THE FILE: \n");
+	fp = fopen("./files_lab4/student.dat","r");
+	while(fread(&std, sizeof(struct student), 1, fp)){
+    if(std.per<80){continue;}
+		printf("%s grade %d, total = %d, percentage = %.2f\n",std.name, std.grade, std.total, std.per);
+	}
+	
+	fclose(fp);
+
+}
+
+void lab4_q7(){
+  char name[10];
+  int opt;
+  printf("Enter name of file: ");
+  scanf("%s",name);
+
+  FILE *fp;
+  fp = fopen(name, "r");
+
+  if(fp == NULL){
+    printf("file does not exit.");
+    return;
+  }
+
+  fclose(fp);
+  printf("1. Rename the file\n2. Remove the file\nopt: ");
+  scanf("%d",&opt);
+  switch(opt){
+    case 1:
+      char newname[10];
+      printf("Enter new name: ");
+      scanf("%s", newname);
+      rename(name, newname); 
+      break;
+    case 2:
+      remove(name);
+      break;
+    default:
+      printf("not valid option");
+      return;
+  }
+  printf("sucessful operation");
+}
+
+void lab4_q8(){
+  FILE *fp;
+  long pos;
+
+  fp = fopen("./files_lab4/q8.txt", "w+");
+
+  fprintf(fp, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  
+  printf("Current position using ftell(): %ld. character: %d(-1 INDICATES EOF)\n",ftell(fp),fgetc(fp));
+  rewind(fp);
+  printf("Current position after rewind: %ld. character: %c\n",ftell(fp),fgetc(fp));
+  fseek(fp,-3,SEEK_END);
+  printf("Current position after fseek -3 char from end: %ld. character: %c\n",ftell(fp),fgetc(fp));
+  fseek(fp,10,SEEK_SET);
+  printf("Current position after fseek 10 char from the start: %ld. character: %c\n",ftell(fp),fgetc(fp));
+  fseek(fp,5,SEEK_CUR);
+  printf("Current position after fseek 5 char from the current pos: %ld. chracter: %c\n",ftell(fp),fgetc(fp));
+
+  fclose(fp);
+}
+
+
 // ======= MENU DECLARATION =============== //
 Menu labwork1[] = {
 	{1, "Even or odd using function", program, {.pfunction = lab1_q1}},
@@ -553,10 +788,23 @@ Menu labwork3[] = {
 	{0, "BACK", back, {.pfunction = NULL}},
 };
 
+Menu labwork4[] = {
+  {1, "Input, store, print sentence using getc and putc", program, {.pfunction = lab4_q1}},
+  {2, "Natural numbers using getw", program, {.pfunction = lab4_q2}},
+  {3, "Students name and address", program, {.pfunction = lab4_q3}},
+  {4, "Book's data", program, {.pfunction = lab4_q4}},
+  {5, "Employee detail using fwrite and fread", program, {.pfunction = lab4_q5}},
+  {6, "Student.dat and display according to percentage", program, {.pfunction = lab4_q6}},
+  {7, "Rename and remove function", program, {.pfunction = lab4_q7}},
+  {8, "ftell, feek, and rewind functions", program, {.pfunction = lab4_q8}},
+  {0, "BACK", back, {.pfunction = NULL}},
+};
+
 Menu Main_Menu[] = {
 	{1, "Labwork 1", sub_menu, {.submenu = labwork1}},
 	{2, "Labwork 2", sub_menu, {.submenu = labwork2}},
 	{3, "Labwork 3", sub_menu, {.submenu = labwork3}},
+  {4, "Labwork 4", sub_menu, {.submenu = labwork4}},
 	{0, "QUIT", quit, {.submenu = NULL}}
 };
 

@@ -313,12 +313,13 @@ void lab2_q4(){
 		scanf("%s",st[i].add);
 	}
 	struct student temp;
-	for(i = 0; i<n; i++){
+	for(i = 0; i<n-1; i++){
 		for(j = i+1; j<n; j++){
-			if(strcmp(st[i].name,st[j].name)>0);
+			if(strcmp(st[i].name,st[j].name)>0){
 				temp = st[i];
 				st[i] = st[j];
 				st[j] = temp;
+      }
 		}
 	}
 	printf("\nIn sorted format: \n");
